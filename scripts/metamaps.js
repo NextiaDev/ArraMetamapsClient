@@ -44,6 +44,7 @@ $(document).ready(function() {
     $(ARRA_SUBMIT_ID).toggleClass('hide');
 
     $(ARRA_SELFIE_HTML_ID).change(function() {
+        
         INE_FRONT = document.querySelector(ARRA_INE_FRONT_HTML_ID).files ? document.querySelector(ARRA_INE_FRONT_HTML_ID).files[0] : typeof undefined;
         INE_BACK = document.querySelector(ARRA_INE_BACK_HTML_ID).files ? document.querySelector(ARRA_INE_BACK_HTML_ID).files[0] : typeof undefined;
         SELFIE = document.querySelector(ARRA_SELFIE_HTML_ID).files ? document.querySelector(ARRA_SELFIE_HTML_ID).files[0] : typeof undefined;
@@ -210,12 +211,12 @@ const checkResult = async (entriesResponse) => {
 
     if (ineFrontVerificationErr) {
         hasError = true;
-        showMessage('warning', 'No se pudo analizar la sección frontal de la INE: ', getErrorReason(ineFrontVerificationErr.code));
+        showMessage('warning', '<strong>No se pudo analizar la sección frontal de la INE</strong>' + getErrorReason(ineFrontVerificationErr.code));
     }
 
     if (ineBackVerificationErr) {
         hasError = true;
-        showMessage('warning', 'No se pudo analizar la sección trasera de la INE: ', getErrorReason(ineBackVerificationErr.code));
+        showMessage('warning', '<strong>No se pudo analizar la sección trasera de la INE</strong>' + getErrorReason(ineBackVerificationErr.code));
     }
 
     if (selfieVerificationErr) {
@@ -497,32 +498,31 @@ const getAlterationDetection = (reasonCode) => {
 
 const getErrorReason = (errorCode) => {
 
-    const defaultMessage = '<strong>Error de validación</strong>.<br><small>Los datos proporcionados no pasan la validación. El usuario debe cargar otro archivo de foto.</small>';
     if (errorCode) {
         const detailError = {
-            'documentPhoto.badText': '<strong>Error de validación</strong>.<br><small>Error en la validación del campo del documento.</small>',
-            'documentPhoto.blurryText': '<strong>Error de validación</strong>.<br><small>La foto del documento está demasiado borrosa.</small>',
-            'documentPhoto.smallImageSize': '<strong>Error de validación</strong>.<br><small>La resolución de la foto del documento es demasiado baja.</small>',
-            'documentPhoto.unexpectedData': '<strong>Error de validación</strong>.<br><small>Error inesperado en la lectura del documento.</small>',
-            'documentPhoto.noText': '<strong>Error de validación</strong>.<br><small>La foto del documento no tiene texto.</small>',
-            'documentPhoto.noFace': '<strong>Error de validación</strong>.<br><small>La foto del documento no tiene rostro.</small>',
-            'documentPhoto.grayscaleImage': '<strong>Error de validación</strong>.<br><small>La foto del documento está en escala de grises.</small>',
-            'documentPhoto.screenPhoto': '<strong>Error de validación</strong>.<br><small>La foto del documento es una captura de pantalla, el usuario debe subir una foto diferente.</small>',
-            'documentPhoto.noDocument': '<strong>Error de validación</strong>.<br><small>La foto del documento no coincide con una plantilla de documento conocida.</small>',
-            'documentPhoto.missingFields': '<strong>Error de validación</strong>.<br><small>A la foto del documento le faltan algunos campos obligatorios.</small>',
-            'documentPhoto.wrongFormat': '<strong>Error de validación</strong>.<br><small>Algunos campos obligatorios del documento utilizan un formato no válido.</small>',
-            'documentPhoto.noMrz': '<strong>Error de validación</strong>.<br><small>La fotografía del documento no tiene zona de lectura mecánica.</small>',
-            'documentPhoto.badMrz': '<strong>Error de validación</strong>.<br><small>La foto del documento ha dañado la zona de lectura mecánica.</small>',
-            'documentPhoto.noPdf417': '<strong>Error de validación</strong>.<br><small>La foto del documento no tiene código de barras PDF417.</small>',
-            'documentPhoto.badPdf417': '<strong>Error de validación</strong>.<br><small>La foto del documento tiene un código de barras PDF417 dañado.</small>',
-            'documentPhoto.typeMismatch': '<strong>Error de validación</strong>.<br><small>El tipo de documento reclamado por el usuario y el tipo de documento detectado en la foto son diferentes.</small>',
-            'documentPhoto.countryMismatch': '<strong>Error de validación</strong>.<br><small>El país del documento reclamado por el usuario y el país del documento detectado a partir de la foto del documento son diferentes.</small>',
-            'documentPhoto.croppedDocument': '<strong>Error de validación</strong>.<br><small>Los límites del documento no son completamente visibles en la foto.</small>',
-            'documentPhoto.sideMismatch': '<strong>Error de validación</strong.<br><small>El lado reclamado del documento (anverso o reverso) no coincide con el lado enviado.</small>'
+            'documentPhoto.badText': '<br><small>Error en la validación del campo del documento.</small>',
+            'documentPhoto.blurryText': '<br><small>La foto del documento está demasiado borrosa.</small>',
+            'documentPhoto.smallImageSize': '<br><small>La resolución de la foto del documento es demasiado baja.</small>',
+            'documentPhoto.unexpectedData': '<br><small>Error inesperado en la lectura del documento.</small>',
+            'documentPhoto.noText': '<br><small>La foto del documento no tiene texto.</small>',
+            'documentPhoto.noFace': '<br><small>La foto del documento no tiene rostro.</small>',
+            'documentPhoto.grayscaleImage': '<br><small>La foto del documento está en escala de grises.</small>',
+            'documentPhoto.screenPhoto': '<br><small>La foto del documento es una captura de pantalla, el usuario debe subir una foto diferente.</small>',
+            'documentPhoto.noDocument': '<br><small>La foto del documento no coincide con una plantilla de documento conocida.</small>',
+            'documentPhoto.missingFields': '<br><small>A la foto del documento le faltan algunos campos obligatorios.</small>',
+            'documentPhoto.wrongFormat': '<br><small>Algunos campos obligatorios del documento utilizan un formato no válido.</small>',
+            'documentPhoto.noMrz': '<br><small>La fotografía del documento no tiene zona de lectura mecánica.</small>',
+            'documentPhoto.badMrz': '<br><small>La foto del documento ha dañado la zona de lectura mecánica.</small>',
+            'documentPhoto.noPdf417': '<br><small>La foto del documento no tiene código de barras PDF417.</small>',
+            'documentPhoto.badPdf417': '<br><small>La foto del documento tiene un código de barras PDF417 dañado.</small>',
+            'documentPhoto.typeMismatch': '<br><small>El tipo de documento reclamado por el usuario y el tipo de documento detectado en la foto son diferentes.</small>',
+            'documentPhoto.countryMismatch': '<br><small>El país del documento reclamado por el usuario y el país del documento detectado a partir de la foto del documento son diferentes.</small>',
+            'documentPhoto.croppedDocument': '<br><small>Los límites del documento no son completamente visibles en la foto.</small>',
+            'documentPhoto.sideMismatch': '<br><small>El lado reclamado del documento (anverso o reverso) no coincide con el lado enviado.</small>'
         }
 
-        return detailError[errorCode] || defaultMessage;
+        return detailError[errorCode];
     }
 
-    return defaultMessage;
+    return '<br><small>Los datos proporcionados no pasan la validación. El usuario debe cargar otro archivo de foto.</small>';
 };
